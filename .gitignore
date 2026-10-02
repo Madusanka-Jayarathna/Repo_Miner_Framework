@@ -1,0 +1,29 @@
+# Copyright (c) 2026 Madusanka Jayarathna. All rights reserved.
+# Use of this source code is governed by the MIT license.
+
+# OS
+.DS_Store
+
+
+# Text editor
+.vscode/
+.idea/
+*.swp
+
+# Logs caches
+*.log
+logs/
+.cache/
+
+# outputs
+bin/
+obj/
+dist/
+build/
+
+# environment
+.env
+venv/
+.venv/
+env/
+__pycache__/
