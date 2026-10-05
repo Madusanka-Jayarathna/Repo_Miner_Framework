@@ -20,13 +20,13 @@ def main():
 
     args = parser.parse_args()
 
-   # if not os.path.isfile(args.config):
-   #     parser.error(f"configuration file not found: {args.config}")
+    if not os.path.isfile(args.config):
+        parser.error(f"configuration file not found: {args.config}")
 
-   # with open(args.config, "r") as f:
-   #     config = yaml.safe_load(f)
+    with open(args.config, "r") as f:
+        config = yaml.safe_load(f)
 
-    pipeline = DataPipeline(repo=args.repo, config=args.config)
+    pipeline = DataPipeline(repo=args.repo, config=config)
     pipeline.run(outFile=args.output)
 
 

@@ -1,0 +1,32 @@
+# Options & Settings for JIT Defect Prediction Pipeline
+
+# File types you want to consider when processing
+file_type:
+  - ".cpp"
+  - ".cc"
+  - ".c"
+  - ".hpp"
+  - ".h"
+
+# Exclusion directories
+exclude_dirs:
+  - "tests/"
+  - "docs/"
+  - "third_party/"
+
+# Keywords used to detect bug-fixing commits
+szz_keywords: 
+  - "fix"
+  - "bug"
+  - "issue"
+  - "patch"
+  - "resolve"
+  - "close"
+
+
+# Enable or disable specific feature extraction groups
+features:
+  extract_developer_metrics: true
+  extract_change_metrics: true
+  ignore_merge_commits: true
+  ignore_bot_commits: true
