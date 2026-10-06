@@ -15,7 +15,7 @@ exclude_dirs:
   - "third_party/"
 
 # Keywords used to detect bug-fixing commits
-szz_keywords: 
+szz_keywords:
   - "fix"
   - "bug"
   - "issue"
@@ -28,5 +28,6 @@ szz_keywords:
 features:
   extract_developer_metrics: true
   extract_change_metrics: true
+  extract_process_metrics: false
   ignore_merge_commits: true
   ignore_bot_commits: true
