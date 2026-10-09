@@ -5,11 +5,9 @@ import logging
 from typing import Dict, Optional, Set
 from pydriller.domain.commit import Commit
 
-from miner.core.MetricsExtractor import (
-    DeveloperMetricsExtractor,
-    CodeMetricsExtractor,
-    ProcessMetricsExtractor
-)
+from .DeveloperMetricsExtractor import DeveloperMetricsExtractor
+from .CodeMetricsExtractor import CodeMetricsExtractor
+from .ProcessMetricExtractor import ProcessMetricExtractor
 
 logger = logging.getLogger(__name__)
 
@@ -24,28 +22,32 @@ class FeatureExtractor:
         # Initialize metric extractors
         self._developerExtractor = DeveloperMetricsExtractor(config)
         self._codeExtractor = CodeMetricsExtractor(config)
-        self._processExtractor = ProcessMetricsExtractor(config)
+        self._processExtractor = ProcessMetricExtractor(config)
 
     def extract(self, commit: Commit, buggyCommits: Set[str], repo: str = None) -> Optional[Dict]:
         if repo is None:
             repo = getattr(commit, 'project_path', '.')
 
+        isBuggy = 1 if commit.hash in buggyCommits else 0
         features = {
-            'commit_hash': commit.hash,
+            'commitHash': commit.hash,
             'author': commit.author.name if commit.author else 'unknown',
             'devEmail': commit.author.email if commit.author else 'unknown',
-            'commit_date': commit.committer_date.isoformat() if commit.committer_date else '',
-            'is_buggy': 1 if commit.hash in buggyCommits else 0,
+            'commitDate': commit.committer_date.isoformat() if commit.committer_date else '',
+            'isBuggy': isBuggy,
         }
 
         # Extract metrics based on configuration
         if self._enabledMetrics.get('extract_change_metrics', True):
             features.update(self._codeExtractor.extract(commit, repo))
+            #self._codeExtractor.update(commit, isBuggy)  
 
         if self._enabledMetrics.get('extract_developer_metrics', True):
             features.update(self._developerExtractor.extract(commit, repo))
+            self._developerExtractor.update(commit, isBuggy)
 
         if self._enabledMetrics.get('extract_process_metrics', False):
             features.update(self._processExtractor.extract(commit, repo))
+            #self._processExtractor.update(commit, isBuggy)
 
         return features

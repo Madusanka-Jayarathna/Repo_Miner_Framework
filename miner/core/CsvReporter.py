@@ -7,7 +7,6 @@ from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 
-
 class CsvReporter:
     """Handles CSV report generation for extracted features."""
 

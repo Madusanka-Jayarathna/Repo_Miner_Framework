@@ -25,6 +25,11 @@ szz_keywords:
 
 
 # Enable or disable specific feature extraction groups
+developer_metrics:
+  recentDays: 90          # For rexp calculation
+  recentCommitsDays: 30   # For RecentCommits metric
+process_metrics:
+  timeWindowDays: 30      # For recentCommits in process metrics
 features:
   extract_developer_metrics: true
   extract_change_metrics: true

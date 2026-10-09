@@ -56,7 +56,7 @@ class DataPipeline:
         processed = 0
 
         # Configure Repository traversal
-        repoTraversal = Repository(self._repo)
+        repoTraversal = Repository(self._repo, order='reverse')
 
         for commit in repoTraversal.traverse_commits():
             # Skip merge commits if configured

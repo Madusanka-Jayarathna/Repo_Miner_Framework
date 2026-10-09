@@ -4,6 +4,8 @@
 This Framework provides pipeline to create data sets for Research purposes
 How to use:
 
+need to add ignore dir support, ignore file considered file support for feature extraction
+
 
 
 Methodology:
@@ -15,20 +17,20 @@ Methodology:
         3.Use multiple git blame to find commits that last modified those lines (-w, -C, -M)
 
 Developer Metrics
-    TotalCommits - no of commits done
-    TotalExp    - days(prefered) from first commit to this commit
-    RecentExp   - days(prefered) from last commit to this commit
-    RecentCommits - commits within last 30 days
-    UniqueFileChanges - no of unique file changed up to this commit
+    - TotalCommits - no of commits done
+    - TotalExp (age)    - days(prefered) from first commit to this commit
+    - RecentExp   - days(prefered) from last commit to this commit
+    - RecentCommits - commits within last 30 days
+    - UniqueFileChanges (nuc) - no of unique file changed up to this commit
     
-    SubSysCommits - no of commits in sub system
-    SubSysExp   - days (prefered) from first subsystem commit to this commit
-    SubSysRecentExp - days (prefered) from last subsystem commit to this commit
+    - SubSysCommits - no of commits in sub system
+    - SubSysExp   - days (prefered) from first subsystem commit to this commit
+    - SubSysRecentExp - days (prefered) from last subsystem commit to this commit
 
-    DevCount    - no of unique developers edited this file
-    HistoricBugCount - no of historical bugs
+    - DevCount (ndev)    - no of unique developers edited this file
+    - AuthorBugCount - no of historical bugs
 
-    commitTime  - time in 24h format (late night bugs)
+    - commitTime  - time in 24h format (late night bugs)
 
 Code Metrics
     LinesAdded - no of lines added
