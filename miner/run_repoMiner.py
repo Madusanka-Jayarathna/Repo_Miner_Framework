@@ -2,6 +2,7 @@
 # Use of this source code is governed by the MIT license.
 
 import argparse
+import logging
 import os
 import sys
 import yaml
@@ -12,6 +13,16 @@ from miner.core.DataPipeline import DataPipeline
 
 
 def main():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        handlers=[
+            logging.FileHandler("repo_miner.log", encoding="utf-8"),
+            logging.StreamHandler(),
+        ],
+    )
+    logging.getLogger("pydriller.repository").setLevel(logging.WARNING)
+
     parser = argparse.ArgumentParser(description="Defect Prediction Feature Mining Framework")
     #parser.add_argument("-v", "--") add support for perforce later
     parser.add_argument("-r", "--repo", required=True, help="Path to Git repository")

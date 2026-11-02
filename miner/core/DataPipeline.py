@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Set
 from pydriller import Repository
 from pydriller.domain.commit import Commit, ModificationType
 
+from miner.core.Utils import * 
 from miner.core.BugLabeler import BugLabeler
 from miner.core.FeatureExtractor import FeatureExtractor
 from miner.core.CsvReporter import CsvReporter
@@ -19,6 +20,7 @@ class DataPipeline:
     def __init__(self, repo: str, config: dict):
         self._repo = repo
         self._config = config
+        self._ignoreBotCommits = config.get('features', {}).get('ignore_bot_commits', True)
         self._labeler = BugLabeler(repo, config)
         self._extractor = FeatureExtractor(config)
         self._reporter = CsvReporter(config)
@@ -63,6 +65,9 @@ class DataPipeline:
             if self._config.get('features', {}).get('ignore_merge_commits', True):
                 if commit.merge or len(commit.parents) > 1:
                     continue
+
+            if self._ignoreBotCommits and isBotCommit(commit):
+                continue
 
             # Extract features
             features = self._extractor.extract(commit, self._buggyCommits)

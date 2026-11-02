@@ -15,6 +15,7 @@
 *.log
 logs/
 .cache/
+tests/
 
 # outputs
 bin/

@@ -7,6 +7,8 @@ from typing import Set, List, Optional
 from pydriller import Repository, Git
 from pydriller.domain.commit import Commit
 
+from miner.core.Utils import *
+
 logger = logging.getLogger(__name__)
 
 
@@ -24,13 +26,7 @@ class BugLabeler:
         self._ignoreDirs = tuple(config.get('exclude_dirs', []))
 
         self._ignoreMergeCommit = config.get('features', {}).get('ignore_merge_commits', True)
-        self._ignoreBotCommit = config.get('features', {}).get('ignore_bot_commits', True)
-
-        self._botPatterns = [
-            r'\[bot\]', r'bot@', r'github-actions', r'gitlab-bot',
-            r'dependabot', r'renovate', r'greenkeeper', r'codecov'
-        ]
-        self._botRegex = re.compile('|'.join(self._botPatterns), re.IGNORECASE)
+        self._ignoreBotCommits = config.get('features', {}).get('ignore_bot_commits', True)
 
 
     def _getNormalizePattern(self) -> re.Pattern:
@@ -67,13 +63,6 @@ class BugLabeler:
         return commit.merge or len(commit.parents) > 1
 
 
-    def _isBotCommit(self, commit: Commit) -> bool:
-        """Check if commit is from a bot."""
-        authorEmail = commit.author.email.lower() if commit.author.email else ''
-        authorName = commit.author.name.lower() if commit.author.name else ''
-        return bool(self._botRegex.search(authorEmail) or self._botRegex.search(authorName))
-
-
     def _isFixCommit(self, commit: Commit) -> bool:
         """Check if commit message indicates a bug fix."""
         if not commit.msg:
@@ -89,13 +78,15 @@ class BugLabeler:
             if self._ignoreMergeCommit and self._isMergeCommit(commit):
                 continue
 
-            if self._ignoreBotCommit and self._isBotCommit(commit):
+            if self._ignoreBotCommits and isBotCommit(commit):
                 continue
 
             if self._isFixCommit(commit):
                 fixCommits.append(commit)
 
         logger.info(f"Found {len(fixCommits)} fix commits")
+        for a in fixCommits:
+            print(a.hash)
         return fixCommits
 
 
@@ -110,9 +101,13 @@ class BugLabeler:
         buggyCommits = set()
         fixCommits = self._getFixCommits()
 
+        
         for fixCommit in fixCommits:
+            print("\n")
             for modifiedFile in fixCommit.modified_files:
+                print(f"file: {modifiedFile.filename}")
                 if not self._isProcessableFile(modifiedFile.filename):
+                    print(f"not processable {fixCommit}")
                     continue
 
                 try:
@@ -123,6 +118,7 @@ class BugLabeler:
 
                     if blameResult:
                         for filePath, commitHashes in blameResult.items():
+                            print(f"blame:{filePath} hash:{commitHashes} fixCommit:{fixCommit.hash}")
                             if self._isProcessableFile(filePath):
                                 buggyCommits.update(commitHashes)
 
@@ -134,4 +130,5 @@ class BugLabeler:
                     continue
 
         logger.info(f"Identified {len(buggyCommits)} bug-introducing commits")
+        print(buggyCommits)
         return buggyCommits

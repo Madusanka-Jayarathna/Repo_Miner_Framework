@@ -2,11 +2,12 @@
 
 # File types you want to consider when processing
 file_type:
-  - ".cpp"
-  - ".cc"
-  - ".c"
-  - ".hpp"
-  - ".h"
+  - ".java"
+#- ".cpp"
+#- ".cc"
+#- ".c"
+#- ".hpp"
+#- ".h"
 
 # Exclusion directories
 exclude_dirs:

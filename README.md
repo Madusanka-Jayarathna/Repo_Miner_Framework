@@ -16,21 +16,38 @@ Methodology:
         2.For each fix commit, get modified lines in each file
         3.Use multiple git blame to find commits that last modified those lines (-w, -C, -M)
 
+Extracted   - E
+Calculated  - C
+
+Basic Features 
+    - commitHash        - unique ID (E)
+    - author            - developer (E)
+    - devEmail          - developer E-mail (E)
+    - commitDate        - commit date (E)
+    - isBuggy           - bug or not (C) SZZ algorithm
+
 Developer Metrics
-    - TotalCommits - no of commits done
-    - TotalExp (age)    - days(prefered) from first commit to this commit
-    - RecentExp   - days(prefered) from last commit to this commit
-    - RecentCommits - commits within last 30 days
-    - UniqueFileChanges (nuc) - no of unique file changed up to this commit
+    considering whole project
+    - TotalCommits      - no of commits done (C) so far
+    - TotalExp          - experience(days) since first commit to this commit (C)
+    - RecentExp         - age(days) since last commit to this commit (C)
+    - RecentCommits     - no of commits within last 30 days (C)
+    - UniqueFileChanges - no of unique file changed up to this commit (C)
+    - DevCount (ndev)   - no of unique developers edited this file (C)
+    - AuthorBugCount    - no of historical bugs (C)
+    - commitTime        - time in 24h format (E)
     
-    - SubSysCommits - no of commits in sub system
-    - SubSysExp   - days (prefered) from first subsystem commit to this commit
-    - SubSysRecentExp - days (prefered) from last subsystem commit to this commit
+    considering root directory
+    - SubSysCommits     - no of commits in sub system (C)
+    - SubSysExp         - experience(days) since first subsystem commit to this commit (C)
+    - SubSysRecentExp   - age(days) since last subsystem commit to this commit (C)
 
-    - DevCount (ndev)    - no of unique developers edited this file
-    - AuthorBugCount - no of historical bugs
+    considering leaf directory
+    - libExp            - no of commits in leaf directory (C)
+    - libExp      - experience(days) since first leaf level commit to this commit (C)
+    - libRecentExp      - age(days) since last leaf level commit to this commit (C)
 
-    - commitTime  - time in 24h format (late night bugs)
+
 
 Code Metrics
     LinesAdded - no of lines added

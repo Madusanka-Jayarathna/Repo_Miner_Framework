@@ -38,16 +38,16 @@ class FeatureExtractor:
         }
 
         # Extract metrics based on configuration
-        if self._enabledMetrics.get('extract_change_metrics', True):
-            features.update(self._codeExtractor.extract(commit, repo))
+        #if self._enabledMetrics.get('extract_change_metrics', True):
+            #features.update(self._codeExtractor.extract(commit, repo))
             #self._codeExtractor.update(commit, isBuggy)  
 
-        if self._enabledMetrics.get('extract_developer_metrics', True):
-            features.update(self._developerExtractor.extract(commit, repo))
-            self._developerExtractor.update(commit, isBuggy)
+        #if self._enabledMetrics.get('extract_developer_metrics', True):
+            #features.update(self._developerExtractor.extract(commit, repo))
+            #self._developerExtractor.update(commit, isBuggy)
 
-        if self._enabledMetrics.get('extract_process_metrics', False):
-            features.update(self._processExtractor.extract(commit, repo))
+        #if self._enabledMetrics.get('extract_process_metrics', False):
+            #features.update(self._processExtractor.extract(commit, repo))
             #self._processExtractor.update(commit, isBuggy)
 
         return features
